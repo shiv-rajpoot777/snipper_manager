@@ -72,7 +72,7 @@ define([
                 if (Jupyter.notebook.get_selected_cell().cell_type === 'markdown') {
                     Jupyter.notebook.insert_cell_below('code');
                 }
-                elif(Jupyter.notebook.get_selected_cell().cell_type === 'code') {
+                elif(Jupyter.notebook.get_selected_cell().cell_type === 'code'); {
                     if (Jupyter.notebook.get_selected_cell().get_text() !== '') {
                         Jupyter.notebook.insert_cell_below('code');
                     } else {
