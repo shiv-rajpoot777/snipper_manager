@@ -37,8 +37,8 @@ define([
         var modal = document.createElement('div');
         modal.className = 'modal';
         modal.style.display = 'block';
-        modal.style.position = 'fixed';
-        modal.style.zIndex = '1';
+
+        modal.style.zIndex = '99';
         modal.style.top = '300px';
         modal.style.width = '500px';
         modal.style.boxSizing = 'border-box';
@@ -48,9 +48,11 @@ define([
         // set padding 2rem, bo-sizing border-box, background-color white, border-radius 5px, box-shadow 0 0 10px rgba(0, 0, 0, 0.1)
         modalContent.style.padding = '2rem';
         modalContent.style.boxSizing = 'border-box';
-        modalContent.style.backgroundColor = 'white';
+        modalContent.style.backgroundColor = '#efefef';
         modalContent.style.borderRadius = '5px';
         modalContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+        modalContent.style.height = 'textarea';
+        modalContent.style.width = '300px';
 
         var span = document.createElement('span');
         span.className = 'close';
@@ -63,6 +65,11 @@ define([
         snippets.forEach(function(snippet) {
             // create link to view code and delete snippet
             var li = document.createElement('li');
+            // add class flex 
+            li.style.display = 'flex';
+            li.style.justifyContent = 'space-between';
+            li.style.padding = '1rem';
+            li.style.width = '100%';
             var a = document.createElement('a');
             a.href = '#';
             a.innerHTML = snippet;
@@ -71,8 +78,7 @@ define([
                 // if current cell is markdown, insert cell below
                 if (Jupyter.notebook.get_selected_cell().cell_type === 'markdown') {
                     Jupyter.notebook.insert_cell_below('code');
-                }
-                elif(Jupyter.notebook.get_selected_cell().cell_type === 'code'); {
+                } else if (Jupyter.notebook.get_selected_cell().cell_type === 'code') {
                     if (Jupyter.notebook.get_selected_cell().get_text() !== '') {
                         Jupyter.notebook.insert_cell_below('code');
                     } else {
@@ -81,7 +87,18 @@ define([
                 }
                 modal.style.display = 'none';
             };
+            // delete snippet
+
+            var deleteButton = document.createElement('button');
+            deleteButton.innerHTML = 'Delete';
+            deleteButton.onclick = function() {
+                localStorage.removeItem(snippet);
+                ul.removeChild(li);
+            };
+
             li.appendChild(a);
+            li.appendChild(deleteButton);
+
             ul.appendChild(li);
 
         });
